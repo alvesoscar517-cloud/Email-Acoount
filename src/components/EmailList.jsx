@@ -5,6 +5,28 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
 
+// Highlight text matching search keyword
+const HighlightText = ({ text, search }) => {
+  if (!search.trim()) return <>{text}</>;
+  
+  const regex = new RegExp(`(${search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  
+  return (
+    <>
+      {parts.map((part, i) => 
+        regex.test(part) ? (
+          <span key={i} className="bg-yellow-300 dark:bg-yellow-500 text-black px-0.5 rounded">
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+};
+
 export default function EmailList({ accounts, onUpdate, onDelete, isLoading }) {
   const [search, setSearch] = useState('');
   const [editingId, setEditingId] = useState(null);
@@ -78,11 +100,13 @@ export default function EmailList({ accounts, onUpdate, onDelete, isLoading }) {
             </div>
           ) : (
             filteredAccounts.map((account) => (
-              <div key={account.id} className="border rounded-[18px] p-5 space-y-3 bg-card hover:shadow-md transition-shadow duration-200">
+              <div key={account.id} className="border rounded-[18px] p-5 space-y-3 bg-card">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <p className="font-medium text-[15px] truncate">{account.email}</p>
+                      <p className="font-medium text-[15px] truncate">
+                        <HighlightText text={account.email} search={search} />
+                      </p>
                       <Button
                         onClick={() => handleCopy(account.email)}
                         size="icon"
@@ -137,7 +161,7 @@ export default function EmailList({ accounts, onUpdate, onDelete, isLoading }) {
                   </div>
                 ) : account.note ? (
                   <p className="text-[13px] text-muted-foreground truncate">
-                    {account.note}
+                    <HighlightText text={account.note} search={search} />
                   </p>
                 ) : null}
               </div>
