@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with rounded corners -->
+  <rect width="1024" height="1024" rx="226" fill="#000000"/>
+  
+  <!-- Email icon - envelope -->
+  <path d="M256 384L512 576L768 384V704C768 739.346 739.346 768 704 768H320C284.654 768 256 739.346 256 704V384Z" fill="white" opacity="0.95"/>
+  <path d="M768 384L512 576L256 384L512 256L768 384Z" fill="white" opacity="0.8"/>
+  
+  <!-- Decorative line -->
+  <line x1="512" y1="576" x2="512" y2="768" stroke="white" stroke-width="16" stroke-linecap="round" opacity="0.9"/>
+</svg>
