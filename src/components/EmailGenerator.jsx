@@ -7,11 +7,11 @@ import { generateAccount } from '@/lib/emailGenerator';
 
 export default function EmailGenerator({ onSave }) {
   const [account, setAccount] = useState(generateAccount());
-  const [copied, setCopied] = useState({ email: false, password: false });
+  const [copied, setCopied] = useState({ firstName: false, lastName: false, email: false, password: false });
 
   const handleGenerate = () => {
     setAccount(generateAccount());
-    setCopied({ email: false, password: false });
+    setCopied({ firstName: false, lastName: false, email: false, password: false });
   };
 
   const handleCopy = async (text, field) => {
@@ -36,6 +36,38 @@ export default function EmailGenerator({ onSave }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <label className="text-[15px] font-medium">First Name</label>
+            <div className="flex gap-2">
+              <Input value={account.firstName} readOnly className="flex-1" />
+              <Button
+                onClick={() => handleCopy(account.firstName, 'firstName')}
+                size="icon"
+                variant="outline"
+                className="rounded-[12px]"
+              >
+                {copied.firstName ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[15px] font-medium">Last Name</label>
+            <div className="flex gap-2">
+              <Input value={account.lastName} readOnly className="flex-1" />
+              <Button
+                onClick={() => handleCopy(account.lastName, 'lastName')}
+                size="icon"
+                variant="outline"
+                className="rounded-[12px]"
+              >
+                {copied.lastName ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              </Button>
+            </div>
+          </div>
+        </div>
+
         <div className="space-y-2">
           <label className="text-[15px] font-medium">Email</label>
           <div className="flex gap-2">

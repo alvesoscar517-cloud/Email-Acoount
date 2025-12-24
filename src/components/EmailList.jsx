@@ -34,7 +34,9 @@ export default function EmailList({ accounts, onUpdate, onDelete, isLoading }) {
 
   const filteredAccounts = accounts.filter(acc =>
     acc.email.toLowerCase().includes(search.toLowerCase()) ||
-    acc.note.toLowerCase().includes(search.toLowerCase())
+    acc.note.toLowerCase().includes(search.toLowerCase()) ||
+    (acc.firstName && acc.firstName.toLowerCase().includes(search.toLowerCase())) ||
+    (acc.lastName && acc.lastName.toLowerCase().includes(search.toLowerCase()))
   );
 
   const handleCopy = async (text) => {
@@ -103,6 +105,22 @@ export default function EmailList({ accounts, onUpdate, onDelete, isLoading }) {
               <div key={account.id} className="border rounded-[18px] p-5 space-y-3 bg-card">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
+                    {/* Hiển thị First Name và Last Name */}
+                    {(account.firstName || account.lastName) && (
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-sm text-muted-foreground">
+                          <HighlightText text={`${account.firstName || ''} ${account.lastName || ''}`.trim()} search={search} />
+                        </p>
+                        <Button
+                          onClick={() => handleCopy(`${account.firstName || ''} ${account.lastName || ''}`.trim())}
+                          size="icon"
+                          variant="ghost"
+                          className="h-6 w-6 flex-shrink-0 rounded-[8px]"
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    )}
                     <div className="flex items-center gap-2 mb-2">
                       <p className="font-medium text-[15px] truncate">
                         <HighlightText text={account.email} search={search} />
